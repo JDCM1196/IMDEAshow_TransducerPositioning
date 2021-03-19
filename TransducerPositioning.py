@@ -43,22 +43,19 @@ class TransducerArray:
         if(configuration == "hexagon"):
             numTransducers = 61
             Transducers = np.zeros((numTransducers, 3))       #define the Transducers' position: x, y, z
+            acc = 0
             
-            Transducers = self.getRowHex(Transducers, 5, 4, 0)
-            Transducers = self.getRowHex(Transducers, 6, 3, 5)
-            Transducers = self.getRowHex(Transducers, 7, 2, 11)
-            Transducers = self.getRowHex(Transducers, 8, 1, 18)
-            Transducers = self.getRowHex(Transducers, 9, 0, 26)
-            Transducers = self.getRowHex(Transducers, 8, -1, 35)
-            Transducers = self.getRowHex(Transducers, 7, -2, 43)
-            Transducers = self.getRowHex(Transducers, 6, -3, 50)
-            Transducers = self.getRowHex(Transducers, 5, -4, 56)
-            
+            for n in range(5):
+                Transducers = self.getRowHex(Transducers, 5+n, 5-n, acc)
+                if n < 4:
+                    Transducers = self.getRowHex(Transducers, 5+n, -(5-n), numTransducers-(5+n)-acc)
+                acc = acc + 5 + n
+            """
             #for easy revision when printing
             transducerNumbers = np.vstack(np.arange(numTransducers))
             np.set_printoptions(suppress=True)
             print(np.column_stack((transducerNumbers, Transducers)))
-
+            """
             
 TA = TransducerArray("hexagon")
 TA.getTransducers()
